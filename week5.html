@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listen &amp; Fill in the Blank — Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#1B4F5E;
+  --teal-mid:#2A6E82;
+  --teal-light:#E3EFF3;
+  --amber:#E8A020;
+  --amber-light:#FDF3E0;
+  --slate:#6B8899;
+  --ink:#1A2B34;
+  --ink-mid:#3D5566;
+  --ink-soft:#7A95A5;
+  --paper:#F9F7F3;
+  --card:#FFFFFF;
+  --rule:#D8E4EA;
+  --green:#2A8052;
+  --green-light:#E6F4ED;
+  --red:#C0392B;
+  --border:#D8E4EA;
+  --shadow:0 2px 14px rgba(27,79,94,0.09);
+  --shadow-lg:0 8px 32px rgba(27,79,94,0.14);
+  --r:10px;
+  --sans:'Inter',system-ui,sans-serif;
+}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.6}
+.site-header{background:var(--teal);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--amber)}
+.logo{color:white;font-family:'Literata',Georgia,serif;font-size:1rem;font-weight:600;line-height:1.2}
+.logo span{display:block;color:rgba(255,255,255,0.65);font-family:var(--sans);font-size:0.72rem;font-weight:400;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px}
+.progress-pill{background:rgba(255,255,255,0.14);border-radius:20px;padding:5px 14px;color:rgba(255,255,255,0.9);font-size:0.75rem;font-weight:500;letter-spacing:0.05em}
+.page-body{max-width:860px;margin:0 auto;padding:34px 20px 80px}
+.note{font-size:0.85rem;color:var(--ink-mid);background:var(--amber-light);border-radius:10px;padding:14px 16px;margin-bottom:24px;border-left:4px solid var(--amber);line-height:1.65}
+.unit-header{display:flex;align-items:center;gap:14px;margin:40px 0 20px}
+.unit-header:first-child{margin-top:0}
+.unit-pill{background:var(--teal);color:white;border-radius:4px;padding:5px 14px;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap}
+.unit-rule{flex:1;height:1px;background:var(--rule)}
+.unit-title{font-family:'Literata',Georgia,serif;font-size:1.08rem;font-weight:600;color:var(--teal)}
+.ex-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:24px;overflow:hidden;border:1px solid var(--rule)}
+.ex-card-top{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 0;gap:14px}
+.ex-meta{flex:1}
+.ex-eyebrow{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.11em;color:var(--slate);margin-bottom:6px}
+.ex-title{font-family:'Literata',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--ink)}
+.ex-instruction{background:var(--teal-light);border-radius:8px;padding:12px 16px;margin:14px 24px 0;font-size:0.88rem;color:var(--teal);line-height:1.6;border-left:3px solid var(--teal-mid)}
+.ex-instruction strong{font-weight:700}
+.ex-body{padding:0 24px 22px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;padding:0 24px 22px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;border:none;font-family:var(--sans);font-size:0.86rem;font-weight:700;cursor:pointer;transition:all 0.18s}
+.btn-primary{background:var(--teal);color:white}
+.btn-primary:hover{background:var(--teal-mid)}
+.btn-ghost{background:transparent;border:1.5px solid var(--rule);color:var(--ink-mid)}
+.btn-ghost:hover{border-color:var(--teal-mid);color:var(--teal)}
+.btn.small{padding:7px 14px;font-size:0.82rem}
+
+/* ---- Audio class (edit the <audio> src attribute in the HTML below to point at your file) ---- */
+.audio-slot{margin-bottom:18px}
+.audio-slot-label{font-size:0.75rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.audio-native{width:100%}
+.no-audio-note{font-size:0.85rem;color:var(--ink-mid);background:#FFF7E8;border:1px dashed #E0B45A;border-radius:8px;padding:12px 14px;margin-bottom:16px}
+
+/* ---- Cloze transcript styling ---- */
+.cloze-sheet{font-size:0.98rem;line-height:2.1}
+.cloze-sheet p{margin-bottom:16px}
+.blank-num{font-size:0.68rem;font-weight:700;color:var(--slate);vertical-align:super;margin-right:1px}
+.blank-input{width:130px;border:0;border-bottom:2px dotted var(--ink-soft);border-radius:0;padding:1px 4px;background:transparent;font:inherit;color:inherit;text-align:center}
+.blank-input:focus{outline:2px solid var(--amber);outline-offset:2px;background:var(--amber-light)}
+.blank-input.correct{border-bottom:2px solid var(--green);background:var(--green-light)}
+.blank-input.incorrect{border-bottom:2px solid var(--red);background:#FDECEA}
+
+.score-bar{background:var(--teal);color:white;border-radius:14px;padding:16px 20px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.score-bar .score-num{font-size:1.3rem;font-weight:800;color:var(--amber)}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo">
+    Listen &amp; Fill in the Blank
+    <span>Replace this subtitle with your unit / week label</span>
+  </div>
+  <div class="progress-pill">1 Practice Task</div>
+</header>
+
+<div class="page-body">
+  <div class="note">
+    <strong>This is listen and fill in the blank exercise for week 5. Video Source: https://www.youtube.com/watch?v=NiKtZgImdlY ; Courtesy: TED</strong> 
+  </div>
+
+  <div class="unit-header">
+    <div class="unit-pill">Unit 1</div>
+    <div class="unit-title">Listen &amp; Fill in the Blank</div>
+    <div class="unit-rule"></div>
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-card-top">
+      <div class="ex-meta">
+        <div class="ex-eyebrow">Exercise 1 · Listening Cloze</div>
+        <div class="ex-title">Replace with your listening title</div>
+      </div>
+    </div>
+    <div class="ex-instruction">
+      Listen to the audio and complete the transcript below. Write <b>ONE WORD ONLY</b> for each blank.
+    </div>
+    <div class="ex-body">
+
+      <!-- ============ AUDIO CLASS ============ -->
+      <!-- Point src at your own audio file (relative path or full URL). The id lets you
+           target this element directly from your own script if you need to. -->
+      <div class="audio-slot">
+        <div class="audio-slot-label">Listening audio</div>
+        <audio controls id="mainAudio" class="audio-native" src="week5.mp3"></audio>
+      </div>
+      <div class="no-audio-note" id="noAudioNote" style="display:none;">
+        ⚠ No audio file found at the path above yet — update the <code>src</code> attribute on the <code>&lt;audio&gt;</code> tag with your file's path once it's ready.
+      </div>
+
+      <!-- ============ CLOZE TRANSCRIPT (placeholder — replace with your real transcript) ============ -->
+<div class="cloze-sheet" id="clozeSheet">
+  <p>
+    Dr. Martin Luther King, Jr.,
+    in a <span class="blank-num">2</span><input class="blank-input" id="q2" data-answer="1968" type="text" autocomplete="off"> speech where he reflects upon the Civil Rights
+    <span class="blank-num">3</span><input class="blank-input" id="q3" data-answer="Movement" type="text" autocomplete="off">,
+    states, "In the end, we will remember not the words of our
+    <span class="blank-num">4</span><input class="blank-input" id="q4" data-answer="enemies" type="text" autocomplete="off">
+    but the silence of our <span class="blank-num">5</span><input class="blank-input" id="q5" data-answer="friends" type="text" autocomplete="off">."
+  </p>
+  <p>
+    As a <span class="blank-num">6</span><input class="blank-input" id="q6" data-answer="teacher" type="text" autocomplete="off">, I've internalized this message.
+    Every day, all around us, we see the consequences of <span class="blank-num">7</span><input class="blank-input" id="q7" data-answer="silence" type="text" autocomplete="off">
+    manifest themselves in the form of <span class="blank-num">8</span><input class="blank-input" id="q8" data-answer="discrimination" type="text" autocomplete="off">,
+    <span class="blank-num">9</span><input class="blank-input" id="q9" data-answer="violence" type="text" autocomplete="off">,
+    <span class="blank-num">10</span><input class="blank-input" id="q10" data-answer="genocide" type="text" autocomplete="off"> and
+    <span class="blank-num">11</span><input class="blank-input" id="q11" data-answer="war" type="text" autocomplete="off">.
+  </p>
+  <p>
+    In the <span class="blank-num">12</span><input class="blank-input" id="q12" data-answer="classroom" type="text" autocomplete="off">, I challenge my students
+    to explore the silences in their own lives through <span class="blank-num">13</span><input class="blank-input" id="q13" data-answer="poetry" type="text" autocomplete="off">.
+  </p>
+  <p>
+    We work together to fill those spaces, to recognize them, to name them,
+    to understand that they don't have to be sources of <span class="blank-num">14</span><input class="blank-input" id="q14" data-answer="shame" type="text" autocomplete="off">.
+  </p>
+  <p>
+    In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences,
+    I have four core <span class="blank-num">15</span><input class="blank-input" id="q15" data-answer="principles" type="text" autocomplete="off"> posted on the board:
+    read critically, write consciously, speak clearly, tell your <span class="blank-num">16</span><input class="blank-input" id="q16" data-answer="truth" type="text" autocomplete="off">.
+  </p>
+  <p>
+    And I realized that if I was going to ask my students to speak up,
+    I was going to have to tell my <span class="blank-num">17</span><input class="blank-input" id="q17" data-answer="truth" type="text" autocomplete="off">
+    and be <span class="blank-num">18</span><input class="blank-input" id="q18" data-answer="honest" type="text" autocomplete="off"> with them about the times
+    where I <span class="blank-num">19</span><input class="blank-input" id="q19" data-answer="failed" type="text" autocomplete="off"> to do so.
+  </p>
+  <p>
+    Growing up, as a kid in a Catholic family in New Orleans,
+    during Lent I was always taught
+    that the most meaningful thing one could do was to give something up,
+    <span class="blank-num">22</span><input class="blank-input" id="q22" data-answer="sacrifice" type="text" autocomplete="off"> something you typically indulge in
+    to prove to God you understand his sanctity.
+  </p>
+  <p>
+    I've given up <span class="blank-num">23</span><input class="blank-input" id="q23" data-answer="soda" type="text" autocomplete="off">, McDonald's, French fries,
+    French <span class="blank-num">24</span><input class="blank-input" id="q24" data-answer="kisses" type="text" autocomplete="off">, and everything in between.
+    But one year, I gave up <span class="blank-num">25</span><input class="blank-input" id="q25" data-answer="speaking" type="text" autocomplete="off">.
+  </p>
+  <p>
+    I figured the most valuable thing I could sacrifice was my own <span class="blank-num">26</span><input class="blank-input" id="q26" data-answer="voice" type="text" autocomplete="off">,
+    but it was like I hadn't realized that I had given that up a long time ago.
+  </p>
+  <p>
+    I spent so much of my life telling people the things they wanted to <span class="blank-num">27</span><input class="blank-input" id="q27" data-answer="hear" type="text" autocomplete="off">
+    instead of the things they needed to, told myself I wasn't meant to be anyone's <span class="blank-num">28</span><input class="blank-input" id="q28" data-answer="conscience" type="text" autocomplete="off">,
+    so sometimes I just wouldn't say anything, appeasing <span class="blank-num">29</span><input class="blank-input" id="q29" data-answer="ignorance" type="text" autocomplete="off"> with my silence.
+  </p>
+  <p>
+    When Christian was beat up for being gay,
+    I put my hands in my <span class="blank-num">31</span><input class="blank-input" id="q31" data-answer="pocket" type="text" autocomplete="off"> and walked with my head down.
+  </p>
+  <p>
+    I couldn't use my <span class="blank-num">32</span><input class="blank-input" id="q32" data-answer="locker" type="text" autocomplete="off"> for weeks because the bolt on the lock
+    reminded me of the one I had put on my <span class="blank-num">33</span><input class="blank-input" id="q33" data-answer="lips" type="text" autocomplete="off">.
+  </p>
+  <p>
+    I was more concerned with touching the screen on my Apple
+    than actually feeding him one.
+  </p>
+  <p>
+    When the woman at the fundraising <span class="blank-num">35</span><input class="blank-input" id="q35" data-answer="gala" type="text" autocomplete="off"> said
+    "I'm so proud of you. It must be so hard teaching those poor, unintelligent kids,"
+    I bit my <span class="blank-num">36</span><input class="blank-input" id="q36" data-answer="lip" type="text" autocomplete="off">.
+  </p>
+  <p>
+    Silence is the residue of <span class="blank-num">37</span><input class="blank-input" id="q37" data-answer="fear" type="text" autocomplete="off">.
+    It is feeling your flaws gut-wrench guillotine your <span class="blank-num">38</span><input class="blank-input" id="q38" data-answer="tongue" type="text" autocomplete="off">.
+    It is the air retreating from your <span class="blank-num">39</span><input class="blank-input" id="q39" data-answer="chest" type="text" autocomplete="off">
+    because it doesn't feel safe in your <span class="blank-num">40</span><input class="blank-input" id="q40" data-answer="lungs" type="text" autocomplete="off">.
+  </p>
+  <p>
+    Silence is Rwandan <span class="blank-num">41</span><input class="blank-input" id="q41" data-answer="genocide" type="text" autocomplete="off">.
+    Silence is Katrina.
+    It is what you hear when there aren't enough body <span class="blank-num">43</span><input class="blank-input" id="q43" data-answer="bags" type="text" autocomplete="off"> left.
+  </p>
+  <p>
+    It is the sound after the noose is already tied.
+    It is chains.
+    It is <span class="blank-num">47</span><input class="blank-input" id="q47" data-answer="privilege" type="text" autocomplete="off">.
+    It is <span class="blank-num">48</span><input class="blank-input" id="q48" data-answer="pain" type="text" autocomplete="off">.
+  </p>
+  <p>
+    There is no time to pick your <span class="blank-num">49</span><input class="blank-input" id="q49" data-answer="battles" type="text" autocomplete="off">
+    when your battles have already picked you.
+  </p>
+  <p>
+    I will not let silence wrap itself around my <span class="blank-num">50</span><input class="blank-input" id="q50" data-answer="indecision" type="text" autocomplete="off">.
+    I will tell Christian that he is a <span class="blank-num">51</span><input class="blank-input" id="q51" data-answer="lion" type="text" autocomplete="off">,
+    a sanctuary of bravery and brilliance.
+  </p>
+  <p>
+    I will ask that homeless man what his <span class="blank-num">52</span><input class="blank-input" id="q52" data-answer="name" type="text" autocomplete="off"> is
+    and how his day was, because sometimes all people want to be is <span class="blank-num">53</span><input class="blank-input" id="q53" data-answer="human" type="text" autocomplete="off">.
+  </p>
+  <p>
+    I will tell that woman that my students can talk about transcendentalism like their last name was Thoreau,
+    and just because you watched one episode of The Wire
+    doesn't mean you know anything about my kids.
+  </p>
+  <p>
+    So this year, instead of giving something up,
+    I will live every day as if there were a <span class="blank-num">56</span><input class="blank-input" id="q56" data-answer="microphone" type="text" autocomplete="off">
+    tucked under my <span class="blank-num">57</span><input class="blank-input" id="q57" data-answer="tongue" type="text" autocomplete="off">,
+    a <span class="blank-num">58</span><input class="blank-input" id="q58" data-answer="stage" type="text" autocomplete="off"> on the underside of my inhibition.
+  </p>
+  <p>
+    Because who has to have a soapbox
+    when all you've ever needed is your voice?
+  </p>
+  <p>
+    Thank you.
+  </p>
+</div>
+
+  <div class="btn-row" style="justify-content:flex-end;">
+    <button class="btn btn-primary" onclick="checkAllAnswers()">Check all answers</button>
+  </div>
+  <div class="score-bar" id="scoreBar" style="display:none;">
+    <span>Score:</span>
+    <span><span class="score-num" id="scoreDisplay">0</span> / <span id="scoreTotal">0</span> correct</span>
+  </div>
+</div>
+
+<script>
+// Checks every .blank-input inside #clozeSheet against its data-answer attribute.
+// Accepts a simple case-insensitive, whitespace-trimmed match. If you want a blank
+// to accept more than one correct spelling, just add extra logic per-id below.
+function checkAllAnswers() {
+  const inputs = document.querySelectorAll('#clozeSheet .blank-input');
+  let correctCount = 0;
+
+  inputs.forEach(input => {
+    const answer = (input.dataset.answer || '').trim().toLowerCase();
+    const given = input.value.trim().toLowerCase();
+    const isCorrect = given.length > 0 && given === answer;
+    input.classList.toggle('correct', isCorrect);
+    input.classList.toggle('incorrect', !isCorrect);
+    if (isCorrect) correctCount++;
+  });
+
+  document.getElementById('scoreTotal').textContent = inputs.length;
+  document.getElementById('scoreDisplay').textContent = correctCount;
+  document.getElementById('scoreBar').style.display = 'flex';
+}
+
+// Shows a small warning note if the placeholder audio file can't actually load,
+// so you notice before handing the file to students.
+document.getElementById('mainAudio').addEventListener('error', function () {
+  document.getElementById('noAudioNote').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
